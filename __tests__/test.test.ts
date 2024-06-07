@@ -1,4 +1,4 @@
-import { test } from '../src/controllers/testController';
+const { tester } = require('../src/controllers/testController');
 
 const res: any = {};
 
@@ -13,7 +13,7 @@ const req: any = {
 
 describe('Test', () => {
   it('should return 200 successful upon testing route', async () => {
-    await test(req, res);
+    await tester(req, res);
 
     expect(res.status).toHaveBeenCalledWith(200);
   });

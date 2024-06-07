@@ -1,4 +1,4 @@
-# TaskMaster API  
+# TaskMaster API
 
 [![CI for taskMaster Project](https://github.com/jkarenzi/task-master-be/actions/workflows/CI.yaml/badge.svg)](https://github.com/jkarenzi/task-master-be/actions/workflows/CI.yaml)
 
