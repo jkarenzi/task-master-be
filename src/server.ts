@@ -1,21 +1,11 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import routes from './routes/index';
-import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from './docs/swaggerconfig';
-dotenv.config();
+const mongoose = require('mongoose');
+require('dotenv').config();
+const app = require('./app')
 
-const app = express();
-app.use(express.json());
-app.use(cors());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const url = process.env.MONGO_URL as string;
 const dbName = process.env.DB_NAME;
 const port = process.env.PORT;
-
 
 mongoose
   .connect(url, { dbName })
@@ -24,10 +14,6 @@ mongoose
       console.log(`Server listening at http://localhost:${port}`);
     });
   })
-  .catch((err) => {
+  .catch((err:Error) => {
     console.log(err);
   });
-
-app.use('/api', routes);
-
-export default app;

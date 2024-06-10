@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { errorHandler } from '../middleware/errorHandler';
+const { errorHandler } = require('../middleware/errorHandler');
 
-export const test = errorHandler(async (req: Request, res: Response) => {
-    return res.status(200).json({ status: 'success', message: 'It works' });
+exports.tester = errorHandler(async (req: Request, res: Response) => {
+  return res.status(200).json({ status: 'success', message: 'It works' });
 });

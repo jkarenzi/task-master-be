@@ -1,7 +1,5 @@
-import swaggerJsdoc from 'swagger-jsdoc';
-import dotenv from 'dotenv';
-
-dotenv.config();
+const swaggerJsdoc = require('swagger-jsdoc');
+require('dotenv').config();
 
 const options = {
   definition: {
@@ -31,6 +29,4 @@ const options = {
   apis: ['src/docs/*'],
 };
 
-const swaggerSpec = swaggerJsdoc(options);
-
-export default swaggerSpec;
+module.exports = swaggerJsdoc(options);
