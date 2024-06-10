@@ -1,6 +1,6 @@
 export {};
 const request = require('supertest');
-const app = require('../src/server');
+const app = require('../src/app');
 const bcrypt = require('bcrypt');
 const {
   signUpSchema,
@@ -27,12 +27,12 @@ describe('Auth Controller Tests', () => {
     };
 
     const returnedUser = {
-        _id:"some id",
-        fullName:"mock user",
-        email:"mock@gmail.com",
-        password:"password1234",
-        createdAt: "some date",
-        updatedAt: "some date"
+        _id:'some id',
+        fullName:'mock user',
+        email:'mock@gmail.com',
+        password:'password1234',
+        createdAt: 'some date',
+        updatedAt: 'some date'
     }
 
   it('should return a 201 if signup is successful', async () => {
@@ -61,12 +61,12 @@ describe('Auth Controller Tests', () => {
     signUpSchema.validate.mockReturnValueOnce({ error: null });
   
     User.findOne.mockImplementationOnce(() => Promise.resolve({
-        _id:"some id",
-        fullName:"mock user",
-        email:"mock@gmail.com",
-        password:"password1234",
-        createdAt: "some date",
-        updatedAt: "some date"
+        _id:'some id',
+        fullName:'mock user',
+        email:'mock@gmail.com',
+        password:'password1234',
+        createdAt: 'some date',
+        updatedAt: 'some date'
     }));
 
     const response = await request(app).post('/api/auth/signup').send(signUpFormData);
@@ -89,7 +89,7 @@ describe('Auth Controller Tests', () => {
 
     bcrypt.compare.mockResolvedValueOnce(true)
 
-    jwt.sign.mockResolvedValueOnce("fake token")
+    jwt.sign.mockResolvedValueOnce('fake token')
 
     const response = await request(app).post('/api/auth/login').send(loginFormData);
     expect(response.status).toBe(200);

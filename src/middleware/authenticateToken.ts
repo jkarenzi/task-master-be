@@ -17,12 +17,11 @@ const authenticateToken = async (
   try {
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
-    //@ts-expect-errors
+    //@ts-expect-errors still figuring out how to extend request
     req.user = decoded.user;
 
     next();
-  } catch (err: any) {
-    console.log(err.message);
+  } catch (err) {
     return res.status(403).json({ status: 'error', message: 'Invalid token' });
   }
 };

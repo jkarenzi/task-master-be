@@ -10,7 +10,8 @@
     "start": "node dist/server.js",
     "dev": "ts-node-dev src/server.ts",
     "lint": "eslint . --ext .ts --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "email":"ts-node src/utils/sendEmail.ts"
   },
   "repository": {
     "type": "git",
@@ -33,9 +34,11 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.1",
     "multer": "^1.4.4",
+    "node-mailer": "^0.1.1",
     "supertest": "^7.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.2"
   },
