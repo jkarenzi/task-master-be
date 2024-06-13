@@ -26,7 +26,12 @@ const loginSchema = Joi.object({
     .required(),
 });
 
+const updateTwoFactorAuthSchema = Joi.object({
+  status: Joi.boolean().required()
+})
+
 module.exports = {
   signUpSchema,
   loginSchema,
+  updateTwoFactorAuthSchema
 };

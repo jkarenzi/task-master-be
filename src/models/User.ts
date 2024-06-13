@@ -30,7 +30,7 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    twoFactorCode: {
+    twoFactorAuth: {
       type: Object,
       default: {
         isEnabled: false,
