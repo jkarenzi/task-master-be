@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      EMAIL: ${EMAIL}
+      EMAIL_PASS: ${EMAIL_PASS}
+      MONGO_URL: ${MONGO_URL}
+      DB_NAME: ${DB_NAME}
+    depends_on:
+      - mongo
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules  
+  mongo:
+    image: mongo:latest
+    ports:
+      - "32768:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}

@@ -1,0 +1,50 @@
+name: CI for taskMaster Project
+
+on:
+  push:
+    branches: ['develop']
+  pull_request:
+    branches: ['develop']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+
+      - name: Set up Docker Compose
+        run: sudo apt-get install docker-compose
+
+      - name: Build and run tests
+        run: docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from test
+
+      - run: npm run lint
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: jkarenzi/task-master-be
+          directory: coverage/
+      - name: Spin down docker containers
+        if: always()
+        run: docker-compose -f docker-compose.test.yml down      
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      EMAIL: ${{ secrets.EMAIL }}
+      EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+      MONGO_URL: ${{ secrets.MONGO_URL }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+      MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
