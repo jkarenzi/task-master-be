@@ -11,12 +11,13 @@ afterAll(disconnectDB)
 
 jest.mock('../src/utils/sendEmail')
 
-describe('Sticky Notes  Controller Test', () => {
+describe('Sticky Notes Controller Test', () => {
     let stickyId:string;
     let token:string;
 
     const createStickyNoteFormData = {
-        content: 'This is my first sticky note'
+        content: 'This is my first sticky note',
+        color: '#333333'
     }
 
     const updateStickyNoteFormData = {
@@ -40,14 +41,12 @@ describe('Sticky Notes  Controller Test', () => {
 
     beforeAll(async() => {
         token = await getToken()
-        console.log(token)
     })
 
     sendEmail.mockImplementationOnce(() => Promise.resolve({response:'ok'}))
 
     it('should create new sticky note successfully', async() => {
         const response = await request(app).post('/api/sticky_notes').send(createStickyNoteFormData).set('Authorization', `Bearer ${token}`)
-        console.log(response.body)
         stickyId = response.body.data._id
         expect(response.status).toBe(201);
         expect(response.body.message).toBe('Sticky note created successfully');
@@ -99,6 +98,4 @@ describe('Sticky Notes  Controller Test', () => {
         expect(response.status).toBe(409);
         expect(response.body.message).toBe('Sticky not found or does not belong to currently logged in user');
     })
-
 })
-

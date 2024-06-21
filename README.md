@@ -33,6 +33,7 @@ To get started with the TaskMaster API, follow these simple steps:
    npm run dev
    ```
 
+
 ## Testing
 
 - Run tests
@@ -45,6 +46,24 @@ To get started with the TaskMaster API, follow these simple steps:
 
   ```bash
   npm run test:ci
+  ```
+
+## Docker  
+
+- Run in docker container
+   ```bash
+   docker-compose -f docker-compose.yml up
+   ```
+
+- Stop the container
+   ```bash
+   docker-compose -f docker-compose.yml down
+   ```   
+
+- Run tests in docker container  
+
+  ```bash
+  docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from test
   ```
 
 ## Usage

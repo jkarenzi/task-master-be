@@ -103,7 +103,6 @@ const verifyEmail = async (req: Request, res: Response) => {
   try{
     const token = req.params.token
     const userId = await jwt.verify(token, jwtSecret)
-    console.log(userId)
 
     await User.findByIdAndUpdate(userId,{isVerified:true},{new:true})
     return res.status(200).json({status:'success',message:'Email verification successful'})
