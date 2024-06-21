@@ -1,23 +1,28 @@
 export {}
 const mongoose = require('mongoose');
 
-const StickyNoteSchema = new mongoose.Schema({
+const LabelSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },
-    content:{
-        type: String,
+    boardId:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Board'
+    },
+    name:{
+        type:String,
         required: true
     },
     color:{
         type:String,
         required: true
-    } 
+    }
 },{ timestamps: true });
 
 
-const StickyNote = mongoose.model('StickyNote', StickyNoteSchema);
+const Label = mongoose.model('Label', LabelSchema);
 
-module.exports = StickyNote;
+module.exports = Label;

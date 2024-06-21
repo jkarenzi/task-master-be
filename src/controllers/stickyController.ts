@@ -1,5 +1,5 @@
 const StickyNote = require('../models/StickyNote')
-import { Request, Response } from "express"
+import { Request, Response } from 'express'
 const {errorHandler} = require('../middleware/errorHandler')
 const {
     updateStickyNoteSchema,
@@ -24,7 +24,7 @@ const createStickyNote = errorHandler(async (req:Request, res:Response) => {
 
     const newStickyNote = new StickyNote({
         userId,
-        content: formData.content
+        ...formData
     })
 
     const savedStickyNote = await newStickyNote.save()
@@ -58,7 +58,7 @@ const updateStickyNote = errorHandler(async (req:Request, res:Response) => {
         return res.status(409).json({status:'error',message:'Sticky not found or does not belong to currently logged in user'})
     }
 
-    const updatedStickyNote = await StickyNote.findByIdAndUpdate(stickyId,{content:formData.content},{new:true})
+    const updatedStickyNote = await StickyNote.findByIdAndUpdate(stickyId,formData,{new:true})
     return res.status(200).json({status:'success',data: updatedStickyNote})
 })
 
