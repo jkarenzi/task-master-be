@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
+import { IUser } from '../custom';
 
 const authorizeAdmin = (req: Request, res: Response, next: NextFunction) => {
-  //@ts-expect-errors still figuring out how to extend request
-  const user = req.user;
+  
+  const user = req.user as IUser;
   if (user.role !== 'admin') {
     return res.status(403).json({ status: 'error', message: 'Forbidden' });
   }

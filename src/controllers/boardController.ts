@@ -8,8 +8,7 @@ const {
 
 
 const createBoard = errorHandler(async (req:Request, res:Response) => {
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const formData = req.body
 
     const validationResult = createBoardSchema.validate(formData);
@@ -38,15 +37,13 @@ const createBoard = errorHandler(async (req:Request, res:Response) => {
 })
 
 const getBoards = errorHandler(async (req:Request, res:Response) => {
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const boards = await Board.find({userId})
     return res.status(200).json({status:'success', data:boards})
 })
 
 const updateBoard = errorHandler(async (req:Request, res:Response) => {
-        //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const boardId = req.params.boardId
     const formData = req.body
 
@@ -78,8 +75,7 @@ const updateBoard = errorHandler(async (req:Request, res:Response) => {
 
 const deleteBoard = errorHandler(async (req:Request, res:Response) => {
     const boardId = req.params.boardId
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
 
     const board = await Board.findOne({_id:boardId, userId})
     if(!board){

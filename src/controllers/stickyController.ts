@@ -7,8 +7,7 @@ const {
 } = require('../middleware/validators/stickySchema')
 
 const createStickyNote = errorHandler(async (req:Request, res:Response) => {
-        //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const formData = req.body
 
     const validationResult = createStickyNoteSchema.validate(formData);
@@ -37,8 +36,7 @@ const getStickyNotes = errorHandler(async (req:Request, res:Response) => {
 })
 
 const updateStickyNote = errorHandler(async (req:Request, res:Response) => {
-        //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const stickyId = req.params.id
     const formData = req.body
 
@@ -64,8 +62,7 @@ const updateStickyNote = errorHandler(async (req:Request, res:Response) => {
 
 const deleteStickyNote = errorHandler(async (req:Request, res:Response) => {
     const stickyId = req.params.id
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
 
     const stickyNote = await StickyNote.findOne({_id:stickyId, userId})
     if(!stickyNote){

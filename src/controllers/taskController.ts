@@ -9,8 +9,7 @@ const {
 
 
 const createTask = errorHandler(async (req:Request, res:Response) => {
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const formData = req.body
 
     const validationResult = createTaskSchema.validate(formData);
@@ -34,8 +33,7 @@ const createTask = errorHandler(async (req:Request, res:Response) => {
 })
 
 const getTasks = errorHandler(async (req:Request, res:Response) => {
-     //@ts-expect-error yet to come up with the right type
-     const userId = req.user._id
+     const userId = req.user!._id
     const boardId = req.params.boardId
     const tasks = await Task.find({boardId, userId}).populate({
         path:'labels',
@@ -45,8 +43,7 @@ const getTasks = errorHandler(async (req:Request, res:Response) => {
 })
 
 const getTask = errorHandler(async (req:Request, res:Response) => {
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
    const taskId = req.params.taskId
    const task = await Task.findOne({_id:taskId, userId}).populate({
         path:'labels',
@@ -56,8 +53,7 @@ const getTask = errorHandler(async (req:Request, res:Response) => {
 })
 
 const updateTask = errorHandler(async (req:Request, res:Response) => {
-        //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const taskId = req.params.taskId
     const formData = req.body
 
@@ -87,8 +83,7 @@ const updateTask = errorHandler(async (req:Request, res:Response) => {
 
 const deleteTask = errorHandler(async (req:Request, res:Response) => {
     const taskId = req.params.taskId
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
 
     const task = await Task.findOne({_id:taskId, userId})
     if(!task){
