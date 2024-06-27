@@ -14,7 +14,7 @@ const authRouter = Router();
 
 authRouter.post('/signup', signUp);
 authRouter.post('/login', login);
-authRouter.get('/verify_email/:token', verifyEmail)
+authRouter.post('/verify_email/:token', verifyEmail)
 authRouter.post('/verify_code/:userId', verifyTwoFactorCode)
 authRouter.post('/request_new_link', authenticateToken, requestVerifyLink)
 authRouter.post('/request_new_code/:userId', requestTwoFactorCode)

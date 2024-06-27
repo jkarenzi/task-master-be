@@ -122,7 +122,7 @@ describe('Auth Controller Tests', () => {
    // email verification tests
   it('should verify email successfully', async () => {
     const token = await jwt.sign({_id:user._id}, process.env.JWT_SECRET, {expiresIn:'1h'})
-    const response = await request(app).get(`/api/auth/verify_email/${token}`)
+    const response = await request(app).post(`/api/auth/verify_email/${token}`)
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('Email verification successful');
   })
@@ -145,7 +145,7 @@ describe('Auth Controller Tests', () => {
 
   it('should return a 409 when token is invalid on verify email', async () => {
     const token = 'fake token'
-    const response = await request(app).get(`/api/auth/verify_email/${token}`)
+    const response = await request(app).post(`/api/auth/verify_email/${token}`)
     expect(response.status).toBe(409);
     expect(response.body.message).toBe('Invalid or expired token');
   })
