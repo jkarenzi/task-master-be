@@ -3,7 +3,7 @@
  * /api/sticky_notes:
  *   get:
  *     summary: Get sticky notes
- *     tags: [Sticky Notes]
+ *     tags: [Sticky Note]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -20,7 +20,7 @@
  * /api/sticky_notes:
  *   post:
  *     summary: Create a sticky note
- *     tags: [Sticky Notes]
+ *     tags: [Sticky Note]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -31,6 +31,8 @@
  *             type: object
  *             properties:
  *               content:
+ *                 type: string
+ *               color:
  *                 type: string
  *     responses:
  *       '201':
@@ -48,7 +50,7 @@
  * /api/sticky_notes/{id}:
  *   patch:
  *     summary: Update a sticky note
- *     tags: [Sticky Notes]
+ *     tags: [Sticky Note]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -66,6 +68,8 @@
  *             type: object
  *             properties:
  *               content:
+ *                 type: string
+ *               color:
  *                 type: string
  *     responses:
  *       '200':
@@ -85,7 +89,7 @@
  * /api/sticky_notes/{id}:
  *   delete:
  *     summary: Delete a sticky note
- *     tags: [Sticky Notes]
+ *     tags: [Sticky Note]
  *     security:
  *       - bearerAuth: []
  *     parameters:

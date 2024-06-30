@@ -8,8 +8,7 @@ const {
 
 
 const createCategory = errorHandler(async (req:Request, res:Response) => {
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const formData = req.body
 
     const validationResult = createCategorySchema.validate(formData);
@@ -38,16 +37,14 @@ const createCategory = errorHandler(async (req:Request, res:Response) => {
 })
 
 const getCategories = errorHandler(async (req:Request, res:Response) => {
-     //@ts-expect-error yet to come up with the right type
-     const userId = req.user._id
+     const userId = req.user!._id
     const boardId = req.params.boardId
     const categories = await Category.find({boardId, userId})
     return res.status(200).json({status:'success', data:categories})
 })
 
 const updateCategory = errorHandler(async (req:Request, res:Response) => {
-        //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const categoryId = req.params.categoryId
     const formData = req.body
 
@@ -79,8 +76,7 @@ const updateCategory = errorHandler(async (req:Request, res:Response) => {
 
 const deleteCategory = errorHandler(async (req:Request, res:Response) => {
     const categoryId = req.params.categoryId
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
 
     const category = await Category.findOne({_id:categoryId, userId})
     if(!category){

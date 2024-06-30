@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { IUser } from '../custom';
 const jwt = require('jsonwebtoken');
 
 const authenticateToken = async (
@@ -9,7 +10,7 @@ const authenticateToken = async (
   const header = req.header('Authorization');
 
   if (!header) {
-    return res.status(401).json({ status: 'error', message: 'Access denied' });
+    return res.status(401).json({ status: 'error', message: 'Unauthorized' });
   }
 
   const token = header.split(' ')[1];
@@ -17,12 +18,11 @@ const authenticateToken = async (
   try {
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
-    //@ts-expect-errors still figuring out how to extend request
-    req.user = decoded.user;
+    req.user = decoded.user as IUser;
 
     next();
   } catch (err) {
-    return res.status(403).json({ status: 'error', message: 'Invalid token' });
+    return res.status(401).json({ status: 'error', message: 'Unauthorized' });
   }
 };
 

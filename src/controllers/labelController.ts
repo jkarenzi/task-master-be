@@ -8,8 +8,7 @@ const {
 
 
 const createLabel = errorHandler(async (req:Request, res:Response) => {
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const formData = req.body
 
     const validationResult = createLabelSchema.validate(formData);
@@ -38,16 +37,14 @@ const createLabel = errorHandler(async (req:Request, res:Response) => {
 })
 
 const getLabels = errorHandler(async (req:Request, res:Response) => {
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const boardId = req.params.boardId
     const labels = await Label.find({boardId, userId})
     return res.status(200).json({status:'success', data:labels})
 })
 
 const updateLabel = errorHandler(async (req:Request, res:Response) => {
-        //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
     const labelId = req.params.labelId
     const formData = req.body
 
@@ -79,8 +76,7 @@ const updateLabel = errorHandler(async (req:Request, res:Response) => {
 
 const deleteLabel = errorHandler(async (req:Request, res:Response) => {
     const labelId = req.params.labelId
-    //@ts-expect-error yet to come up with the right type
-    const userId = req.user._id
+    const userId = req.user!._id
 
     const label = await Label.findOne({_id:labelId, userId})
     if(!label){

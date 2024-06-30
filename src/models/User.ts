@@ -19,7 +19,7 @@ const UserSchema = new Schema(
       enum: ['user', 'admin'],
       default: 'user',
     },
-    imageUrl: {
+    profileImg: {
       type: Object,
       default: {
         publicId: 'default',

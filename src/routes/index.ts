@@ -6,6 +6,7 @@ const boardRoutes = require('./boardRoutes')
 const categoryRoutes = require('./categoryRoutes')
 const labelRoutes = require('./labelRoutes')
 const taskRoutes = require('./taskRoutes')
+const userRoutes = require('./userRoutes')
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/boards', boardRoutes)
 router.use('/categories', categoryRoutes)
 router.use('/labels', labelRoutes)
 router.use('/tasks', taskRoutes)
+router.use('/users', userRoutes)
 
 module.exports = router;
