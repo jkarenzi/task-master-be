@@ -4,8 +4,96 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Verify</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                font-family: 'Open Sans', sans-serif;
+                box-sizing: border-box;
+            }
+
+            .big-container {
+                width: 100%;
+                height: 100vh;
+                background-color: #1A1C1E;
+                color: white;
+                padding: 2rem;
+                box-sizing: border-box;
+            }
+    
+            .title {
+                color: #586AEA;
+                margin: 0;
+                text-align: center;
+            }
+    
+            .p-container {
+                width: 100%;
+                gap: 2rem;
+            }
+    
+            p {
+                width: 100%;
+                text-align: left;
+                margin: 0;
+                padding: 0;
+                margin-top: 2rem;
+            }
+    
+            .link {
+                background-color: #586AEA;
+                color: white !important;
+                padding: 12px;
+                display: block;
+                text-align: center;
+                border-radius: 6px;
+                margin-top: 2rem;
+                text-align: center;
+                text-decoration: none;
+            }
+
+            .link2{
+                color: #586AEA !important;
+                margin-top: 2rem;
+            }
+    
+            .footer {
+                border-top: 1px solid #666666;
+                color: #aeaeae;
+                height: 3rem;
+                width: 100%;
+                margin-top: 5rem;
+                padding-top: 0.5rem;
+                font-size: small;
+            }
+        </style>
     </head>
     <body>
-        <h2>Hi {{ name }}, your link is {{ link }}</h2>
+        <div class="big-container">
+            <h2 class="title">TaskMaster</h2>
+            <div class="p-container">
+                <p style="color: white;">
+                    Hi {{name}},<br/>
+                    Welcome to TaskMaster! We're excited to have you on board.
+                    To complete your registration, please verify your email address by clicking the link below:
+                </p>
+                <a href="{{link}}" class="link">Verify your email</a>
+                <p style="color: white;">If you are not able to access the above link, you can copy the link below and paste it directly into your browser</p>
+                <p class="link2">{{link}}</p>
+                <p style="color: white;">
+                    If you did not create an account with TaskMaster, please ignore this email.
+                    Thank you for joining us!
+                </p>
+                <p style="color: white;">
+                    Best regards,<br/>
+                    TaskMaster Team
+                </p>
+            </div>
+            <div class="footer">
+                Copyright@2024. All rights reserved
+            </div>
+        </div>
     </body>
 </html>

@@ -45,13 +45,13 @@ const signUp = errorHandler(async (req: Request, res: Response) => {
   const savedUser = await newUser.save();
 
   const token = await jwt.sign({ _id: savedUser._id }, jwtSecret, { expiresIn: '1h' });
-  const verifyLink = `${process.env.APP_URL}/api/auth/verify_email/${token}`
+  const verifyLink = `${process.env.FRONTEND_URL}/auth/verify/${token}`
 
   await sendEmail('verify', formData.email, {name:formData.fullName, link:verifyLink})
   
   return res
     .status(201)
-    .json({ status: 'success', message: 'Signup successful!' });
+    .json({ status: 'success', message: 'Signup successful!', data:{email:formData.email} });
 });
 
 const login = errorHandler(async (req: Request, res: Response) => {
@@ -89,7 +89,7 @@ const login = errorHandler(async (req: Request, res: Response) => {
     const twoFactorCode = Math.floor(100000 + Math.random() * 900000);
     await User.findByIdAndUpdate(user._id, {'twoFactorAuth.code':twoFactorCode})
     await sendEmail('2fa',user.email,{name:user.fullName, code:twoFactorCode.toString()})
-    return res.status(200).json({status:'success',message:'A Two Factor Auth Code has been sent to your email'})
+    return res.status(200).json({status:'success',message:'A Two Factor Auth Code has been sent to your email',data:{_id:user._id, email:user.email}})
   }
 
   const token = await jwt.sign({ user }, jwtSecret, { expiresIn: '1h' });
@@ -120,7 +120,7 @@ const requestVerifyLink = errorHandler(async (req:Request, res:Response) => {
   }
 
   const token = await jwt.sign({ _id: user._id }, jwtSecret, { expiresIn: '1h' });
-  const verifyLink = `${process.env.APP_URL}/api/auth/verify_email/${token}`
+  const verifyLink = `${process.env.FRONTEND_URL}/auth/verify/${token}`
 
   await sendEmail('verify', user.email, {name:user.fullName, link:verifyLink})
 
