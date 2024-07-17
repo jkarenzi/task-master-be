@@ -5,7 +5,8 @@ const {
     changePassword,
     changeProfileImg,
     removeProfileImg,
-    deleteUser
+    deleteUser,
+    changeFullName
 } = require('../controllers/userController')
 import { Router } from 'express';
 const authenticateToken = require('../middleware/authenticateToken') 
@@ -16,6 +17,7 @@ const userRouter = Router();
 
 userRouter.use(authenticateToken)
 
+userRouter.patch('/fullName', changeFullName)
 userRouter.patch('/email', changeEmail)
 userRouter.patch('/password', changePassword)
 userRouter.route('/profileImg').patch(upload.fields([{name:'image'}]), changeProfileImg).delete(removeProfileImg)
