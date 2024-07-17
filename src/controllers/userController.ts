@@ -1,9 +1,15 @@
 import { Request, Response } from 'express';
+import { IUser } from '../custom';
 const { errorHandler } = require('../middleware/errorHandler');
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
-const {updatePasswordSchema, updateEmailSchema} = require('../middleware/validators/userSchema')
+const {updatePasswordSchema, updateEmailSchema, updateFullNameSchema} = require('../middleware/validators/userSchema')
 const cloudinary = require('../middleware/cloudinary')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+
+
+const jwtSecret = process.env.JWT_SECRET
 
 interface cloudinaryUploadResult {
   public_id: string,
@@ -72,8 +78,26 @@ const changeEmail = errorHandler(async (req: Request, res: Response) => {
     }
 
     const updatedDoc = await User.findByIdAndUpdate(userId,{email:formData.newEmail},{new:true})
-    return res.status(200).json({status:'success', message: 'Email successfully updated', data:{email:updatedDoc.email}})
+    const token = await jwt.sign({ updatedDoc }, jwtSecret, { expiresIn: '1h' });
+    return res.status(200).json({status:'success', message: 'Email successfully updated', data:{token}})
 });
+
+const changeFullName = errorHandler(async (req: Request, res: Response) => {
+  const formData = req.body
+  const userId = req.user!._id
+
+  const validationResult = updateFullNameSchema.validate(formData)
+
+  if(validationResult.error){
+      return res.status(400).json({status:'error', message:validationResult.error.details[0].message})
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(userId,{fullName:formData.fullName},{new:true})
+  const token = await jwt.sign({ updatedUser }, jwtSecret, { expiresIn: '1h' });
+
+  return res.status(200).json({status:'success', data:{token}})
+
+})
 
 const changeProfileImg = errorHandler(async (req: Request, res: Response) => {
     const userId = req.user!._id
@@ -108,7 +132,9 @@ const changeProfileImg = errorHandler(async (req: Request, res: Response) => {
       {new:true}
     )
 
-    return res.status(200).json({status:'success', message:'Profile Image successfully updated', data:{profileImg:updatedUser.profileImg}})
+    const token = await jwt.sign({ updatedUser }, jwtSecret, { expiresIn: '1h' });
+
+    return res.status(200).json({status:'success', message:'Profile Image successfully updated', data:{token}})
 });
 
 const removeProfileImg = errorHandler(async (req: Request, res: Response) => {
@@ -121,8 +147,9 @@ const removeProfileImg = errorHandler(async (req: Request, res: Response) => {
 
     const result = await cloudinary.uploader.destroy(user.profileImg.publicId,{invalidate:true})
 
+    let updatedUser: IUser;
     if(result.result === 'ok'){
-      await User.findByIdAndUpdate(
+      updatedUser = await User.findByIdAndUpdate(
         user._id, 
         {
           profileImg: {
@@ -132,7 +159,8 @@ const removeProfileImg = errorHandler(async (req: Request, res: Response) => {
         }
       )
 
-      return res.status(204).json({})
+      const token = await jwt.sign({ updatedUser }, jwtSecret, { expiresIn: '1h' });
+      return res.status(200).json({status:'success', data:{token}})
     }else{
       return res.status(400).json({status:'error', message:'An error occured. Try again later'})
     }
@@ -151,6 +179,7 @@ const deleteUser = errorHandler(async (req: Request, res: Response) => {
 module.exports = {
     getAllUsers,
     getUser,
+    changeFullName,
     changeEmail,
     changePassword,
     changeProfileImg,
