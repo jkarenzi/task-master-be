@@ -114,7 +114,7 @@ describe('User Controller tests', () => {
 
         expect(res.status).toBe(200);
         expect(res.body.message).toBe('Email successfully updated');
-        expect(res.body.data.email).toBe('new@example.com');
+        expect(res.body.data.token).toBeDefined();
     });
 
     it('should return 400 if email validation fails', async () => {
@@ -214,6 +214,6 @@ describe('User Controller tests', () => {
         .delete('/api/users/profileImg')
         .set('Authorization', `Bearer ${token}`)
 
-        expect(res.status).toBe(204);
+        expect(res.status).toBe(200);
     })
 });

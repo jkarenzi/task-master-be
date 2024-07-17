@@ -175,7 +175,7 @@ const toggleTwoFactorAuth = errorHandler(async (req:Request, res:Response) => {
   const formData = req.body
 
   const validationResult = updateTwoFactorAuthSchema.validate(formData);
-
+ 
   if (validationResult.error) {
     return res
       .status(400)
@@ -185,9 +185,10 @@ const toggleTwoFactorAuth = errorHandler(async (req:Request, res:Response) => {
       });
   }
 
-  await User.findByIdAndUpdate(userId, {'twoFactorAuth.isEnabled':formData.status},{new:true})
+  const updatedUser = await User.findByIdAndUpdate(userId, {'twoFactorAuth.isEnabled':formData.status},{new:true})
+  const token = await jwt.sign({ user:updatedUser }, jwtSecret, { expiresIn: '1h' });
 
-  return res.status(200).json({status:'success',message:'Update successful'})
+  return res.status(200).json({status:'success',message:'Update successful', data:{token}})
 })
 
 module.exports = {

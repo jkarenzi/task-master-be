@@ -26,7 +26,18 @@ const updateEmailSchema = Joi.object({
     newEmail: Joi.string().email().required(),
 })
 
+const updateFullNameSchema = Joi.object({
+  fullName: Joi.string()
+    .regex(/^[A-Za-z\s]{5,}$/)
+    .message(
+      'fullName can only contain letters and should have atleast 5 characters'
+    )
+    .required()
+})
+
+
 module.exports = {
     updateEmailSchema,
-    updatePasswordSchema
+    updatePasswordSchema,
+    updateFullNameSchema
 }
